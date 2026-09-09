@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+database:
+  host: localhost
+  port: 5432
+  user: root
+  password: ""
+  dbname: belajar-vertx-db
+  pool:
+    maxSize: 10
+    minIdle: 2
+    connectionTimeoutMs: 30000
+    idleTimeoutMs: 600000
+    maxLifetimeMs: 1800000
+    keepaliveTimeMs: 300000
+    leakDetectionThresholdMs: 0

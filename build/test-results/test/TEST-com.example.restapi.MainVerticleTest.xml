@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.restapi.MainVerticleTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-09-09T06:02:24.643Z" hostname="DESKTOP-1A4JFQM" time="9.763">
+  <properties/>
+  <testcase name="Memastikan endpoint /api/v1/items merespons JSON Array list item dari database" classname="com.example.restapi.MainVerticleTest" time="7.834"/>
+  <testcase name="Memastikan POST /api/v1/items tanpa name merespons status 400" classname="com.example.restapi.MainVerticleTest" time="0.44"/>
+  <testcase name="Memastikan POST /api/v1/items berhasil membuat item baru dengan status 201 di PostgreSQL" classname="com.example.restapi.MainVerticleTest" time="0.503"/>
+  <testcase name="Memastikan DELETE /api/v1/items/:id berhasil menghapus item dari database" classname="com.example.restapi.MainVerticleTest" time="0.485"/>
+  <testcase name="Memastikan endpoint /health merespons status 200 dan database bernilai UP" classname="com.example.restapi.MainVerticleTest" time="0.452"/>
+  <system-out><![CDATA[2026-09-09 13:02:25.614 [vert.x-worker-thread-1] INFO  c.example.restapi.db.DatabaseManager - Menghubungkan ke PostgreSQL di jdbc:postgresql://localhost:5432/belajar-vertx-db...
+2026-09-09 13:02:25.648 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Starting...
+2026-09-09 13:02:25.861 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.pool.HikariPool - VertX-HikariPool - Added connection org.postgresql.jdbc.PgConnection@2c165a4
+2026-09-09 13:02:25.865 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Start completed.
+2026-09-09 13:02:26.827 [vert.x-worker-thread-1] INFO  c.e.restapi.db.MigrationManager - Menjalankan migrasi database Liquibase dari 'db/changelog/db.changelog-master.yaml'...
+Database is up to date, no changesets to execute
+
+UPDATE SUMMARY
+Run:                          0
+Previously run:               1
+Filtered out:                 0
+-------------------------------
+Total change sets:            1
+
+2026-09-09 13:02:29.700 [vert.x-worker-thread-1] INFO  c.e.restapi.db.MigrationManager - Migrasi database Liquibase berhasil selesai
+2026-09-09 13:02:29.703 [vert.x-worker-thread-1] INFO  c.example.restapi.db.DatabaseManager - Koneksi PostgreSQL dan jOOQ DSLContext berhasil diinisialisasi
+2026-09-09 13:02:30.244 [vert.x-eventloop-thread-0] INFO  com.example.restapi.MainVerticle - Server REST API berhasil berjalan di port 8080
+2026-09-09 13:02:32.023 [vert.x-worker-thread-2] INFO  org.jooq.Constants - 
+                                      
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@  @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@  @@  @@    @@@@@@@@@@
+@@@@@@@@@@  @@@@  @@  @@    @@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@    @@  @@  @@@@  @@@@@@@@@@
+@@@@@@@@@@    @@  @@  @@@@  @@@@@@@@@@
+@@@@@@@@@@        @@  @  @  @@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Thank you for using jOOQ 3.19.18 (Build date: 2025-01-15T11:37:37Z)
+                                      
+2026-09-09 13:02:32.035 [vert.x-worker-thread-2] INFO  org.jooq.Constants - 
+
+jOOQ tip of the day: When it comes to using Converter or Binding, only the first UNION subquery is relevant. Learn more about this here: https://blog.jooq.org/how-to-use-jooqs-converters-with-union-operations/
+
+2026-09-09 13:02:32.197 [vert.x-worker-thread-2] INFO  o.j.i.D.logVersionSupport - Version                  : Database version is supported by dialect POSTGRES: 16.14
+2026-09-09 13:02:32.397 [vert.x-eventloop-thread-0] INFO  i.v.ext.web.handler.LoggerHandler - 127.0.0.1 - - [Wed, 9 Sep 2026 06:02:31 GMT] "GET /api/v1/items HTTP/1.1" 200 1113 "-" "Vert.x-WebClient/5.1.7"
+2026-09-09 13:02:32.473 [vert.x-eventloop-thread-0] INFO  c.example.restapi.db.DatabaseManager - Menutup HikariCP DataSource...
+2026-09-09 13:02:32.473 [vert.x-eventloop-thread-0] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Shutdown initiated...
+2026-09-09 13:02:32.479 [vert.x-eventloop-thread-0] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Shutdown completed.
+2026-09-09 13:02:32.601 [vert.x-worker-thread-1] INFO  c.example.restapi.db.DatabaseManager - Menghubungkan ke PostgreSQL di jdbc:postgresql://localhost:5432/belajar-vertx-db...
+2026-09-09 13:02:32.601 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Starting...
+2026-09-09 13:02:32.675 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.pool.HikariPool - VertX-HikariPool - Added connection org.postgresql.jdbc.PgConnection@2f29a279
+2026-09-09 13:02:32.675 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Start completed.
+2026-09-09 13:02:32.675 [vert.x-worker-thread-1] INFO  c.e.restapi.db.MigrationManager - Menjalankan migrasi database Liquibase dari 'db/changelog/db.changelog-master.yaml'...
+Database is up to date, no changesets to execute
+
+UPDATE SUMMARY
+Run:                          0
+Previously run:               1
+Filtered out:                 0
+-------------------------------
+Total change sets:            1
+
+2026-09-09 13:02:32.909 [vert.x-worker-thread-1] INFO  c.e.restapi.db.MigrationManager - Migrasi database Liquibase berhasil selesai
+2026-09-09 13:02:32.910 [vert.x-worker-thread-1] INFO  c.example.restapi.db.DatabaseManager - Koneksi PostgreSQL dan jOOQ DSLContext berhasil diinisialisasi
+2026-09-09 13:02:32.915 [vert.x-eventloop-thread-0] INFO  com.example.restapi.MainVerticle - Server REST API berhasil berjalan di port 8080
+2026-09-09 13:02:32.938 [vert.x-eventloop-thread-0] WARN  i.v.ext.web.handler.LoggerHandler - 127.0.0.1 - - [Wed, 9 Sep 2026 06:02:32 GMT] "POST /api/v1/items HTTP/1.1" 400 60 "-" "Vert.x-WebClient/5.1.7"
+2026-09-09 13:02:32.949 [vert.x-eventloop-thread-0] INFO  c.example.restapi.db.DatabaseManager - Menutup HikariCP DataSource...
+2026-09-09 13:02:32.949 [vert.x-eventloop-thread-0] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Shutdown initiated...
+2026-09-09 13:02:32.951 [vert.x-eventloop-thread-0] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Shutdown completed.
+2026-09-09 13:02:33.038 [vert.x-worker-thread-1] INFO  c.example.restapi.db.DatabaseManager - Menghubungkan ke PostgreSQL di jdbc:postgresql://localhost:5432/belajar-vertx-db...
+2026-09-09 13:02:33.038 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Starting...
+2026-09-09 13:02:33.112 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.pool.HikariPool - VertX-HikariPool - Added connection org.postgresql.jdbc.PgConnection@4c47d5df
+2026-09-09 13:02:33.112 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Start completed.
+2026-09-09 13:02:33.112 [vert.x-worker-thread-1] INFO  c.e.restapi.db.MigrationManager - Menjalankan migrasi database Liquibase dari 'db/changelog/db.changelog-master.yaml'...
+Database is up to date, no changesets to execute
+
+UPDATE SUMMARY
+Run:                          0
+Previously run:               1
+Filtered out:                 0
+-------------------------------
+Total change sets:            1
+
+2026-09-09 13:02:33.298 [vert.x-worker-thread-1] INFO  c.e.restapi.db.MigrationManager - Migrasi database Liquibase berhasil selesai
+2026-09-09 13:02:33.298 [vert.x-worker-thread-1] INFO  c.example.restapi.db.DatabaseManager - Koneksi PostgreSQL dan jOOQ DSLContext berhasil diinisialisasi
+2026-09-09 13:02:33.303 [vert.x-eventloop-thread-0] INFO  com.example.restapi.MainVerticle - Server REST API berhasil berjalan di port 8080
+2026-09-09 13:02:33.448 [vert.x-eventloop-thread-0] INFO  i.v.ext.web.handler.LoggerHandler - 127.0.0.1 - - [Wed, 9 Sep 2026 06:02:33 GMT] "POST /api/v1/items HTTP/1.1" 201 178 "-" "Vert.x-WebClient/5.1.7"
+2026-09-09 13:02:33.453 [vert.x-eventloop-thread-0] INFO  c.example.restapi.db.DatabaseManager - Menutup HikariCP DataSource...
+2026-09-09 13:02:33.453 [vert.x-eventloop-thread-0] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Shutdown initiated...
+2026-09-09 13:02:33.456 [vert.x-eventloop-thread-0] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Shutdown completed.
+2026-09-09 13:02:33.526 [vert.x-worker-thread-1] INFO  c.example.restapi.db.DatabaseManager - Menghubungkan ke PostgreSQL di jdbc:postgresql://localhost:5432/belajar-vertx-db...
+2026-09-09 13:02:33.526 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Starting...
+2026-09-09 13:02:33.601 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.pool.HikariPool - VertX-HikariPool - Added connection org.postgresql.jdbc.PgConnection@6178d838
+2026-09-09 13:02:33.601 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Start completed.
+2026-09-09 13:02:33.601 [vert.x-worker-thread-1] INFO  c.e.restapi.db.MigrationManager - Menjalankan migrasi database Liquibase dari 'db/changelog/db.changelog-master.yaml'...
+Database is up to date, no changesets to execute
+
+UPDATE SUMMARY
+Run:                          0
+Previously run:               1
+Filtered out:                 0
+-------------------------------
+Total change sets:            1
+
+2026-09-09 13:02:33.770 [vert.x-worker-thread-1] INFO  c.e.restapi.db.MigrationManager - Migrasi database Liquibase berhasil selesai
+2026-09-09 13:02:33.770 [vert.x-worker-thread-1] INFO  c.example.restapi.db.DatabaseManager - Koneksi PostgreSQL dan jOOQ DSLContext berhasil diinisialisasi
+2026-09-09 13:02:33.777 [vert.x-eventloop-thread-0] INFO  com.example.restapi.MainVerticle - Server REST API berhasil berjalan di port 8080
+2026-09-09 13:02:33.801 [vert.x-eventloop-thread-0] INFO  i.v.ext.web.handler.LoggerHandler - 127.0.0.1 - - [Wed, 9 Sep 2026 06:02:33 GMT] "POST /api/v1/items HTTP/1.1" 201 172 "-" "Vert.x-WebClient/5.1.7"
+2026-09-09 13:02:33.878 [vert.x-eventloop-thread-0] INFO  i.v.ext.web.handler.LoggerHandler - 127.0.0.1 - - [Wed, 9 Sep 2026 06:02:33 GMT] "DELETE /api/v1/items/fe77c7f2-a480-4d2d-a0ba-15a9a3a5bb07 HTTP/1.1" 200 79 "-" "Vert.x-WebClient/5.1.7"
+2026-09-09 13:02:33.882 [vert.x-eventloop-thread-0] INFO  c.example.restapi.db.DatabaseManager - Menutup HikariCP DataSource...
+2026-09-09 13:02:33.884 [vert.x-eventloop-thread-0] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Shutdown initiated...
+2026-09-09 13:02:33.937 [vert.x-eventloop-thread-0] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Shutdown completed.
+2026-09-09 13:02:34.021 [vert.x-worker-thread-1] INFO  c.example.restapi.db.DatabaseManager - Menghubungkan ke PostgreSQL di jdbc:postgresql://localhost:5432/belajar-vertx-db...
+2026-09-09 13:02:34.023 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Starting...
+2026-09-09 13:02:34.101 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.pool.HikariPool - VertX-HikariPool - Added connection org.postgresql.jdbc.PgConnection@5c410239
+2026-09-09 13:02:34.101 [vert.x-worker-thread-1] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Start completed.
+2026-09-09 13:02:34.101 [vert.x-worker-thread-1] INFO  c.e.restapi.db.MigrationManager - Menjalankan migrasi database Liquibase dari 'db/changelog/db.changelog-master.yaml'...
+Database is up to date, no changesets to execute
+
+UPDATE SUMMARY
+Run:                          0
+Previously run:               1
+Filtered out:                 0
+-------------------------------
+Total change sets:            1
+
+2026-09-09 13:02:34.280 [vert.x-worker-thread-1] INFO  c.e.restapi.db.MigrationManager - Migrasi database Liquibase berhasil selesai
+2026-09-09 13:02:34.280 [vert.x-worker-thread-1] INFO  c.example.restapi.db.DatabaseManager - Koneksi PostgreSQL dan jOOQ DSLContext berhasil diinisialisasi
+2026-09-09 13:02:34.288 [vert.x-eventloop-thread-0] INFO  com.example.restapi.MainVerticle - Server REST API berhasil berjalan di port 8080
+2026-09-09 13:02:34.369 [vert.x-eventloop-thread-0] INFO  i.v.ext.web.handler.LoggerHandler - 127.0.0.1 - - [Wed, 9 Sep 2026 06:02:34 GMT] "GET /health HTTP/1.1" 200 269 "-" "Vert.x-WebClient/5.1.7"
+2026-09-09 13:02:34.388 [vert.x-eventloop-thread-0] INFO  c.example.restapi.db.DatabaseManager - Menutup HikariCP DataSource...
+2026-09-09 13:02:34.388 [vert.x-eventloop-thread-0] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Shutdown initiated...
+2026-09-09 13:02:34.390 [vert.x-eventloop-thread-0] INFO  com.zaxxer.hikari.HikariDataSource - VertX-HikariPool - Shutdown completed.
+]]></system-out>
+  <system-err><![CDATA[Sep 09, 2026 1:02:27 PM liquibase.database
+INFO: Set default schema name to public
+Sep 09, 2026 1:02:28 PM liquibase.changelog
+INFO: Reading from public.databasechangelog
+Sep 09, 2026 1:02:28 PM liquibase.changelog
+INFO: Reading from public.databasechangelog
+Sep 09, 2026 1:02:28 PM liquibase.util
+INFO: UPDATE SUMMARY
+Sep 09, 2026 1:02:28 PM liquibase.util
+INFO: Run:                          0
+Sep 09, 2026 1:02:28 PM liquibase.util
+INFO: Previously run:               1
+Sep 09, 2026 1:02:28 PM liquibase.util
+INFO: Filtered out:                 0
+Sep 09, 2026 1:02:28 PM liquibase.util
+INFO: -------------------------------
+Sep 09, 2026 1:02:28 PM liquibase.util
+INFO: Total change sets:            1
+Sep 09, 2026 1:02:28 PM liquibase.util
+INFO: Update summary generated
+Sep 09, 2026 1:02:28 PM liquibase.command
+INFO: Command execution complete
+Sep 09, 2026 1:02:32 PM liquibase.database
+INFO: Set default schema name to public
+Sep 09, 2026 1:02:32 PM liquibase.changelog
+INFO: Reading from public.databasechangelog
+Sep 09, 2026 1:02:32 PM liquibase.changelog
+INFO: Reading from public.databasechangelog
+Sep 09, 2026 1:02:32 PM liquibase.util
+INFO: UPDATE SUMMARY
+Sep 09, 2026 1:02:32 PM liquibase.util
+INFO: Run:                          0
+Sep 09, 2026 1:02:32 PM liquibase.util
+INFO: Previously run:               1
+Sep 09, 2026 1:02:32 PM liquibase.util
+INFO: Filtered out:                 0
+Sep 09, 2026 1:02:32 PM liquibase.util
+INFO: -------------------------------
+Sep 09, 2026 1:02:32 PM liquibase.util
+INFO: Total change sets:            1
+Sep 09, 2026 1:02:32 PM liquibase.util
+INFO: Update summary generated
+Sep 09, 2026 1:02:32 PM liquibase.command
+INFO: Command execution complete
+Sep 09, 2026 1:02:33 PM liquibase.database
+INFO: Set default schema name to public
+Sep 09, 2026 1:02:33 PM liquibase.changelog
+INFO: Reading from public.databasechangelog
+Sep 09, 2026 1:02:33 PM liquibase.changelog
+INFO: Reading from public.databasechangelog
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: UPDATE SUMMARY
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: Run:                          0
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: Previously run:               1
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: Filtered out:                 0
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: -------------------------------
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: Total change sets:            1
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: Update summary generated
+Sep 09, 2026 1:02:33 PM liquibase.command
+INFO: Command execution complete
+Sep 09, 2026 1:02:33 PM liquibase.database
+INFO: Set default schema name to public
+Sep 09, 2026 1:02:33 PM liquibase.changelog
+INFO: Reading from public.databasechangelog
+Sep 09, 2026 1:02:33 PM liquibase.changelog
+INFO: Reading from public.databasechangelog
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: UPDATE SUMMARY
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: Run:                          0
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: Previously run:               1
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: Filtered out:                 0
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: -------------------------------
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: Total change sets:            1
+Sep 09, 2026 1:02:33 PM liquibase.util
+INFO: Update summary generated
+Sep 09, 2026 1:02:33 PM liquibase.command
+INFO: Command execution complete
+Sep 09, 2026 1:02:34 PM liquibase.database
+INFO: Set default schema name to public
+Sep 09, 2026 1:02:34 PM liquibase.changelog
+INFO: Reading from public.databasechangelog
+Sep 09, 2026 1:02:34 PM liquibase.changelog
+INFO: Reading from public.databasechangelog
+Sep 09, 2026 1:02:34 PM liquibase.util
+INFO: UPDATE SUMMARY
+Sep 09, 2026 1:02:34 PM liquibase.util
+INFO: Run:                          0
+Sep 09, 2026 1:02:34 PM liquibase.util
+INFO: Previously run:               1
+Sep 09, 2026 1:02:34 PM liquibase.util
+INFO: Filtered out:                 0
+Sep 09, 2026 1:02:34 PM liquibase.util
+INFO: -------------------------------
+Sep 09, 2026 1:02:34 PM liquibase.util
+INFO: Total change sets:            1
+Sep 09, 2026 1:02:34 PM liquibase.util
+INFO: Update summary generated
+Sep 09, 2026 1:02:34 PM liquibase.command
+INFO: Command execution complete
+]]></system-err>
+</testsuite>
