@@ -6,6 +6,7 @@ import com.example.restapi.controller.ItemController
 import com.example.restapi.db.DatabaseManager
 import com.example.restapi.exception.AppException
 import com.example.restapi.repository.ItemRepositoryImpl
+import com.example.restapi.response.respondError
 import com.example.restapi.service.ItemServiceImpl
 import io.vertx.core.Future
 import io.vertx.core.VerticleBase
@@ -66,33 +67,18 @@ class MainVerticle : VerticleBase() {
 
     // 404 Handler untuk URL tidak terdaftar
     router.errorHandler(404) { ctx ->
-      if (!ctx.response().ended()) {
-        ctx.response()
-          .setStatusCode(404)
-          .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-          .end(
-            JsonObject()
-              .put("error", "Not Found")
-              .put("message", "Endpoint atau resource tidak ditemukan")
-              .encode()
-          )
-      }
+      ctx.respondError(
+        statusCode = 404,
+        message = "Endpoint atau resource tidak ditemukan",
+        error = "Not Found"
+      )
     }
 
     // Global Failure Handler
     router.route().failureHandler { ctx ->
       val failure = ctx.failure()
       if (failure is AppException) {
-        val statusCode = failure.statusCode
-        ctx.response()
-          .setStatusCode(statusCode)
-          .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-          .end(
-            JsonObject()
-              .put("error", if (statusCode == 404) "Not Found" else "Bad Request")
-              .put("message", failure.message)
-              .encode()
-          )
+        ctx.respondError(failure)
         return@failureHandler
       }
 
@@ -100,17 +86,11 @@ class MainVerticle : VerticleBase() {
       val message = failure?.message ?: "Internal Server Error"
       log.error("Request error: {}", message, failure)
 
-      if (!ctx.response().ended()) {
-        ctx.response()
-          .setStatusCode(statusCode)
-          .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-          .end(
-            JsonObject()
-              .put("error", "Internal Server Error")
-              .put("message", message)
-              .encode()
-          )
-      }
+      ctx.respondError(
+        statusCode = statusCode,
+        message = message,
+        error = "Internal Server Error"
+      )
     }
 
     return router

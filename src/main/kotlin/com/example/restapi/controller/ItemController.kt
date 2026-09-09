@@ -2,8 +2,10 @@ package com.example.restapi.controller
 
 import com.example.restapi.dto.CreateItemRequest
 import com.example.restapi.exception.AppException
+import com.example.restapi.response.respondCreated
+import com.example.restapi.response.respondError
+import com.example.restapi.response.respondSuccess
 import com.example.restapi.service.ItemService
-import io.vertx.core.http.HttpHeaders
 import io.vertx.core.json.DecodeException
 import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
@@ -25,9 +27,10 @@ class ItemController(
       .onSuccess { items ->
         val array = JsonArray()
         items.forEach { array.add(it.toJson()) }
-        ctx.response()
-          .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-          .end(array.encodePrettily())
+        ctx.respondSuccess(
+          data = array,
+          message = "Data item berhasil diambil"
+        )
       }
       .onFailure(ctx::fail)
   }
@@ -36,9 +39,10 @@ class ItemController(
     val id = ctx.pathParam("id")
     itemService.getItemById(id)
       .onSuccess { item ->
-        ctx.response()
-          .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-          .end(item.toJson().encodePrettily())
+        ctx.respondSuccess(
+          data = item.toJson(),
+          message = "Data item berhasil ditemukan"
+        )
       }
       .onFailure(ctx::fail)
   }
@@ -48,15 +52,11 @@ class ItemController(
     try {
       body = ctx.body().asJsonObject()
     } catch (e: DecodeException) {
-      ctx.response()
-        .setStatusCode(400)
-        .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-        .end(
-          JsonObject()
-            .put("error", "Bad Request")
-            .put("message", "Format JSON request tidak valid")
-            .encode()
-        )
+      ctx.respondError(
+        statusCode = 400,
+        message = "Format JSON request tidak valid",
+        error = "Bad Request"
+      )
       return
     }
 
@@ -64,22 +64,14 @@ class ItemController(
       val request = CreateItemRequest.fromJson(body)
       itemService.createItem(request)
         .onSuccess { created ->
-          ctx.response()
-            .setStatusCode(201)
-            .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-            .end(created.toJson().encodePrettily())
+          ctx.respondCreated(
+            data = created.toJson(),
+            message = "Item berhasil dibuat"
+          )
         }
         .onFailure(ctx::fail)
     } catch (e: AppException.BadRequestException) {
-      ctx.response()
-        .setStatusCode(400)
-        .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-        .end(
-          JsonObject()
-            .put("error", "Bad Request")
-            .put("message", e.message)
-            .encode()
-        )
+      ctx.respondError(e)
     }
   }
 
@@ -87,15 +79,10 @@ class ItemController(
     val id = ctx.pathParam("id")
     itemService.deleteItem(id)
       .onSuccess {
-        ctx.response()
-          .setStatusCode(200)
-          .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-          .end(
-            JsonObject()
-              .put("message", "Item berhasil dihapus")
-              .put("id", id)
-              .encode()
-          )
+        ctx.respondSuccess(
+          data = JsonObject().put("id", id),
+          message = "Item berhasil dihapus"
+        )
       }
       .onFailure(ctx::fail)
   }
