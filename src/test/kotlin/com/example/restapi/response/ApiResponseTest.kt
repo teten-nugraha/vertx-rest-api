@@ -1,14 +1,12 @@
 package com.example.restapi.response
 
 import com.example.restapi.exception.AppException
-import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 class ApiResponseTest {
-
   @Test
   @DisplayName("Success response dengan object data menghasilkan format JSON yang sesuai")
   fun testSuccessWithObjectData() {
@@ -30,10 +28,11 @@ class ApiResponseTest {
   @Test
   @DisplayName("Success response dengan list / array data menghasilkan format JSON yang sesuai")
   fun testSuccessWithArrayData() {
-    val items = listOf(
-      JsonObject().put("id", "1").put("name", "Item 1"),
-      JsonObject().put("id", "2").put("name", "Item 2")
-    )
+    val items =
+      listOf(
+        JsonObject().put("id", "1").put("name", "Item 1"),
+        JsonObject().put("id", "2").put("name", "Item 2"),
+      )
     val meta = JsonObject().put("total", 2).put("page", 1)
     val response = ApiResponse.success(data = items, message = "Daftar item berhasil diambil", meta = meta)
     val json = response.toJson()
@@ -74,10 +73,11 @@ class ApiResponseTest {
   @DisplayName("Error response 400 Bad Request dengan rincian errors list")
   fun testBadRequestWithErrors() {
     val validationErrors = listOf("Field 'name' wajib diisi", "Field 'price' harus berupa angka positif")
-    val response = ApiResponse.badRequest(
-      message = "Validasi gagal",
-      errors = validationErrors
-    )
+    val response =
+      ApiResponse.badRequest(
+        message = "Validasi gagal",
+        errors = validationErrors,
+      )
     val json = response.toJson()
 
     assertFalse(json.getBoolean("success"))

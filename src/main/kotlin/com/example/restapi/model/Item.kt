@@ -7,14 +7,15 @@ data class Item(
   val id: String,
   val name: String,
   val description: String? = null,
-  val createdAt: OffsetDateTime? = null
+  val createdAt: OffsetDateTime? = null,
 ) {
-  fun toJson(): JsonObject = JsonObject().apply {
-    put("id", id)
-    put("name", name)
-    put("description", description)
-    put("createdAt", createdAt?.toString())
-  }
+  fun toJson(): JsonObject =
+    JsonObject().apply {
+      put("id", id)
+      put("name", name)
+      put("description", description)
+      put("createdAt", createdAt?.toString())
+    }
 
   companion object {
     fun fromJson(json: JsonObject): Item {

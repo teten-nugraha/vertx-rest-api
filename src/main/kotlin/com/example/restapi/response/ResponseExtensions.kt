@@ -8,7 +8,10 @@ import io.vertx.ext.web.RoutingContext
 /**
  * Sends a JSON response with status code and standard Content-Type header.
  */
-fun RoutingContext.respondJson(statusCode: Int, body: JsonObject) {
+fun RoutingContext.respondJson(
+  statusCode: Int,
+  body: JsonObject,
+) {
   if (!response().ended()) {
     response()
       .setStatusCode(statusCode)
@@ -24,7 +27,7 @@ fun <T> RoutingContext.respondSuccess(
   data: T? = null,
   message: String = "Operasi berhasil",
   statusCode: Int = 200,
-  meta: JsonObject? = null
+  meta: JsonObject? = null,
 ) {
   val res = ApiResponse.success(data = data, message = message, statusCode = statusCode, meta = meta)
   respondJson(statusCode, res.toJson())
@@ -35,7 +38,7 @@ fun <T> RoutingContext.respondSuccess(
  */
 fun <T> RoutingContext.respondCreated(
   data: T? = null,
-  message: String = "Resource berhasil dibuat"
+  message: String = "Resource berhasil dibuat",
 ) {
   val res = ApiResponse.created(data = data, message = message)
   respondJson(201, res.toJson())
@@ -48,7 +51,7 @@ fun RoutingContext.respondError(
   statusCode: Int,
   message: String,
   error: String? = null,
-  errors: List<String>? = null
+  errors: List<String>? = null,
 ) {
   val res = ApiResponse.error(statusCode = statusCode, message = message, error = error, errors = errors)
   respondJson(statusCode, res.toJson())
@@ -62,6 +65,6 @@ fun RoutingContext.respondError(exception: AppException) {
     statusCode = exception.statusCode,
     message = exception.message,
     error = exception.error,
-    errors = exception.errors
+    errors = exception.errors,
   )
 }

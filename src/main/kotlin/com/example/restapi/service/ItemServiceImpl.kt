@@ -9,44 +9,40 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 class ItemServiceImpl(
-  private val itemRepository: ItemRepository
+  private val itemRepository: ItemRepository,
 ) : ItemService {
+  override fun getAllItems(): Future<List<Item>> = itemRepository.findAll()
 
-  override fun getAllItems(): Future<List<Item>> {
-    return itemRepository.findAll()
-  }
-
-  override fun getItemById(id: String): Future<Item> {
-    return itemRepository.findById(id).compose { optionalItem ->
+  override fun getItemById(id: String): Future<Item> =
+    itemRepository.findById(id).compose { optionalItem ->
       if (optionalItem.isEmpty) {
         Future.failedFuture(AppException.NotFoundException("Item dengan ID '$id' tidak ditemukan"))
       } else {
         Future.succeededFuture(optionalItem.get())
       }
     }
-  }
 
   override fun createItem(request: CreateItemRequest): Future<Item> {
     request.validate()
 
     val id = UUID.randomUUID().toString()
-    val newItem = Item(
-      id = id,
-      name = request.name.trim(),
-      description = request.description?.trim() ?: "",
-      createdAt = OffsetDateTime.now()
-    )
+    val newItem =
+      Item(
+        id = id,
+        name = request.name.trim(),
+        description = request.description?.trim() ?: "",
+        createdAt = OffsetDateTime.now(),
+      )
 
     return itemRepository.save(newItem)
   }
 
-  override fun deleteItem(id: String): Future<Void> {
-    return itemRepository.deleteById(id).compose { deleted ->
+  override fun deleteItem(id: String): Future<Void> =
+    itemRepository.deleteById(id).compose { deleted ->
       if (!deleted) {
         Future.failedFuture(AppException.NotFoundException("Item dengan ID '$id' tidak ditemukan"))
       } else {
         Future.succeededFuture()
       }
     }
-  }
 }

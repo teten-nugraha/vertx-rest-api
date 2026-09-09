@@ -13,7 +13,7 @@ import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
 
 class ItemController(
-  private val itemService: ItemService
+  private val itemService: ItemService,
 ) {
   fun mount(router: Router) {
     router.get("/api/v1/items").handler(this::getAll)
@@ -23,28 +23,28 @@ class ItemController(
   }
 
   fun getAll(ctx: RoutingContext) {
-    itemService.getAllItems()
+    itemService
+      .getAllItems()
       .onSuccess { items ->
         val array = JsonArray()
         items.forEach { array.add(it.toJson()) }
         ctx.respondSuccess(
           data = array,
-          message = "Data item berhasil diambil"
+          message = "Data item berhasil diambil",
         )
-      }
-      .onFailure(ctx::fail)
+      }.onFailure(ctx::fail)
   }
 
   fun getById(ctx: RoutingContext) {
     val id = ctx.pathParam("id")
-    itemService.getItemById(id)
+    itemService
+      .getItemById(id)
       .onSuccess { item ->
         ctx.respondSuccess(
           data = item.toJson(),
-          message = "Data item berhasil ditemukan"
+          message = "Data item berhasil ditemukan",
         )
-      }
-      .onFailure(ctx::fail)
+      }.onFailure(ctx::fail)
   }
 
   fun create(ctx: RoutingContext) {
@@ -55,21 +55,21 @@ class ItemController(
       ctx.respondError(
         statusCode = 400,
         message = "Format JSON request tidak valid",
-        error = "Bad Request"
+        error = "Bad Request",
       )
       return
     }
 
     try {
       val request = CreateItemRequest.fromJson(body)
-      itemService.createItem(request)
+      itemService
+        .createItem(request)
         .onSuccess { created ->
           ctx.respondCreated(
             data = created.toJson(),
-            message = "Item berhasil dibuat"
+            message = "Item berhasil dibuat",
           )
-        }
-        .onFailure(ctx::fail)
+        }.onFailure(ctx::fail)
     } catch (e: AppException.BadRequestException) {
       ctx.respondError(e)
     }
@@ -77,13 +77,13 @@ class ItemController(
 
   fun delete(ctx: RoutingContext) {
     val id = ctx.pathParam("id")
-    itemService.deleteItem(id)
+    itemService
+      .deleteItem(id)
       .onSuccess {
         ctx.respondSuccess(
           data = JsonObject().put("id", id),
-          message = "Item berhasil dihapus"
+          message = "Item berhasil dihapus",
         )
-      }
-      .onFailure(ctx::fail)
+      }.onFailure(ctx::fail)
   }
 }

@@ -35,14 +35,14 @@ data class ApiResponse<T>(
   val meta: JsonObject? = null,
   val error: String? = null,
   val errors: List<String>? = null,
-  val timestamp: String = Instant.now().toString()
+  val timestamp: String = Instant.now().toString(),
 ) {
-
   fun toJson(): JsonObject {
-    val json = JsonObject()
-      .put("success", success)
-      .put("statusCode", statusCode)
-      .put("message", message)
+    val json =
+      JsonObject()
+        .put("success", success)
+        .put("statusCode", statusCode)
+        .put("message", message)
 
     if (success) {
       when (data) {
@@ -84,71 +84,59 @@ data class ApiResponse<T>(
       data: T? = null,
       message: String = "Operasi berhasil",
       statusCode: Int = 200,
-      meta: JsonObject? = null
-    ): ApiResponse<T> {
-      return ApiResponse(
+      meta: JsonObject? = null,
+    ): ApiResponse<T> =
+      ApiResponse(
         success = true,
         statusCode = statusCode,
         message = message,
         data = data,
-        meta = meta
+        meta = meta,
       )
-    }
 
     fun <T> created(
       data: T? = null,
-      message: String = "Resource berhasil dibuat"
-    ): ApiResponse<T> {
-      return ApiResponse(
+      message: String = "Resource berhasil dibuat",
+    ): ApiResponse<T> =
+      ApiResponse(
         success = true,
         statusCode = 201,
         message = message,
-        data = data
+        data = data,
       )
-    }
 
     fun error(
       statusCode: Int,
       message: String,
       error: String? = null,
-      errors: List<String>? = null
-    ): ApiResponse<Nothing> {
-      return ApiResponse(
+      errors: List<String>? = null,
+    ): ApiResponse<Nothing> =
+      ApiResponse(
         success = false,
         statusCode = statusCode,
         message = message,
         error = error ?: defaultErrorPhrase(statusCode),
-        errors = errors
+        errors = errors,
       )
-    }
 
     fun badRequest(
       message: String = "Bad Request",
-      errors: List<String>? = null
+      errors: List<String>? = null,
     ): ApiResponse<Nothing> = error(400, message, "Bad Request", errors)
 
-    fun unauthorized(
-      message: String = "Unauthorized"
-    ): ApiResponse<Nothing> = error(401, message, "Unauthorized")
+    fun unauthorized(message: String = "Unauthorized"): ApiResponse<Nothing> = error(401, message, "Unauthorized")
 
-    fun forbidden(
-      message: String = "Forbidden"
-    ): ApiResponse<Nothing> = error(403, message, "Forbidden")
+    fun forbidden(message: String = "Forbidden"): ApiResponse<Nothing> = error(403, message, "Forbidden")
 
-    fun notFound(
-      message: String = "Resource tidak ditemukan"
-    ): ApiResponse<Nothing> = error(404, message, "Not Found")
+    fun notFound(message: String = "Resource tidak ditemukan"): ApiResponse<Nothing> = error(404, message, "Not Found")
 
-    fun conflict(
-      message: String = "Conflict"
-    ): ApiResponse<Nothing> = error(409, message, "Conflict")
+    fun conflict(message: String = "Conflict"): ApiResponse<Nothing> = error(409, message, "Conflict")
 
-    fun internalServerError(
-      message: String = "Terjadi kesalahan pada server"
-    ): ApiResponse<Nothing> = error(500, message, "Internal Server Error")
+    fun internalServerError(message: String = "Terjadi kesalahan pada server"): ApiResponse<Nothing> =
+      error(500, message, "Internal Server Error")
 
-    private fun defaultErrorPhrase(statusCode: Int): String {
-      return when (statusCode) {
+    private fun defaultErrorPhrase(statusCode: Int): String =
+      when (statusCode) {
         400 -> "Bad Request"
         401 -> "Unauthorized"
         403 -> "Forbidden"
@@ -161,6 +149,5 @@ data class ApiResponse<T>(
         503 -> "Service Unavailable"
         else -> if (statusCode in 400..499) "Client Error" else "Server Error"
       }
-    }
   }
 }

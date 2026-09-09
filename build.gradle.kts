@@ -7,6 +7,7 @@ plugins {
   kotlin("jvm") version "2.2.20"
   application
   id("com.gradleup.shadow") version "9.2.2"
+  id("com.diffplug.spotless") version "7.0.2"
 }
 
 group = "com.example.restapi"
@@ -38,6 +39,8 @@ dependencies {
   implementation("io.vertx:vertx-web")
   implementation("io.vertx:vertx-launcher-application")
   implementation("io.vertx:vertx-lang-kotlin")
+  implementation("io.vertx:vertx-auth-jwt")
+  implementation("org.mindrot:jbcrypt:0.4")
   implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
   // Database & jOOQ ORM
@@ -92,4 +95,20 @@ tasks.register<JavaExec>("liquibaseUpdate") {
   description = "Runs Liquibase database migrations"
   classpath = sourceSets["main"].runtimeClasspath
   mainClass.set("com.example.restapi.db.MigrationCliKt")
+}
+
+spotless {
+  kotlin {
+    target("**/*.kt")
+    targetExclude("**/build/**")
+    ktlint()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  kotlinGradle {
+    target("*.gradle.kts")
+    ktlint()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
 }

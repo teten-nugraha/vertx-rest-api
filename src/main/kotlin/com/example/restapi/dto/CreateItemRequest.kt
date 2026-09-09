@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject
 
 data class CreateItemRequest(
   val name: String,
-  val description: String? = ""
+  val description: String? = "",
 ) {
   fun validate() {
     if (name.isBlank()) {
