@@ -2,8 +2,10 @@ package com.example.restapi.controller
 
 import com.example.restapi.dto.CreateItemRequest
 import com.example.restapi.exception.AppException
+import com.example.restapi.response.respondCreated
+import com.example.restapi.response.respondError
+import com.example.restapi.response.respondSuccess
 import com.example.restapi.service.ItemService
-import io.vertx.core.http.HttpHeaders
 import io.vertx.core.json.DecodeException
 import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
@@ -11,7 +13,7 @@ import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
 
 class ItemController(
-  private val itemService: ItemService
+  private val itemService: ItemService,
 ) {
   fun mount(router: Router) {
     router.get("/api/v1/items").handler(this::getAll)
@@ -21,26 +23,28 @@ class ItemController(
   }
 
   fun getAll(ctx: RoutingContext) {
-    itemService.getAllItems()
+    itemService
+      .getAllItems()
       .onSuccess { items ->
         val array = JsonArray()
         items.forEach { array.add(it.toJson()) }
-        ctx.response()
-          .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-          .end(array.encodePrettily())
-      }
-      .onFailure(ctx::fail)
+        ctx.respondSuccess(
+          data = array,
+          message = "Data item berhasil diambil",
+        )
+      }.onFailure(ctx::fail)
   }
 
   fun getById(ctx: RoutingContext) {
     val id = ctx.pathParam("id")
-    itemService.getItemById(id)
+    itemService
+      .getItemById(id)
       .onSuccess { item ->
-        ctx.response()
-          .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-          .end(item.toJson().encodePrettily())
-      }
-      .onFailure(ctx::fail)
+        ctx.respondSuccess(
+          data = item.toJson(),
+          message = "Data item berhasil ditemukan",
+        )
+      }.onFailure(ctx::fail)
   }
 
   fun create(ctx: RoutingContext) {
@@ -48,55 +52,38 @@ class ItemController(
     try {
       body = ctx.body().asJsonObject()
     } catch (e: DecodeException) {
-      ctx.response()
-        .setStatusCode(400)
-        .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-        .end(
-          JsonObject()
-            .put("error", "Bad Request")
-            .put("message", "Format JSON request tidak valid")
-            .encode()
-        )
+      ctx.respondError(
+        statusCode = 400,
+        message = "Format JSON request tidak valid",
+        error = "Bad Request",
+      )
       return
     }
 
     try {
       val request = CreateItemRequest.fromJson(body)
-      itemService.createItem(request)
+      itemService
+        .createItem(request)
         .onSuccess { created ->
-          ctx.response()
-            .setStatusCode(201)
-            .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-            .end(created.toJson().encodePrettily())
-        }
-        .onFailure(ctx::fail)
+          ctx.respondCreated(
+            data = created.toJson(),
+            message = "Item berhasil dibuat",
+          )
+        }.onFailure(ctx::fail)
     } catch (e: AppException.BadRequestException) {
-      ctx.response()
-        .setStatusCode(400)
-        .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-        .end(
-          JsonObject()
-            .put("error", "Bad Request")
-            .put("message", e.message)
-            .encode()
-        )
+      ctx.respondError(e)
     }
   }
 
   fun delete(ctx: RoutingContext) {
     val id = ctx.pathParam("id")
-    itemService.deleteItem(id)
+    itemService
+      .deleteItem(id)
       .onSuccess {
-        ctx.response()
-          .setStatusCode(200)
-          .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-          .end(
-            JsonObject()
-              .put("message", "Item berhasil dihapus")
-              .put("id", id)
-              .encode()
-          )
-      }
-      .onFailure(ctx::fail)
+        ctx.respondSuccess(
+          data = JsonObject().put("id", id),
+          message = "Item berhasil dihapus",
+        )
+      }.onFailure(ctx::fail)
   }
 }

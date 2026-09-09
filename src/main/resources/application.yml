@@ -15,3 +15,9 @@ database:
     maxLifetimeMs: 1800000
     keepaliveTimeMs: 300000
     leakDetectionThresholdMs: 0
+
+jwt:
+  secret: super-secure-jwt-secret-key-for-vertx-api-at-least-256-bits
+  accessTokenExpirationMinutes: 15
+  refreshTokenExpirationDays: 7
+

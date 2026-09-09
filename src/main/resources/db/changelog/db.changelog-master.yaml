@@ -1,3 +1,6 @@
 databaseChangeLog:
   - include:
       file: db/changelog/changes/001-create-items-table.sql
+  - include:
+      file: db/changelog/changes/002-create-auth-tables.sql
+

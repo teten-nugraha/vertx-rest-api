@@ -10,7 +10,10 @@ import javax.sql.DataSource
 object MigrationManager {
   private val log = LoggerFactory.getLogger(MigrationManager::class.java)
 
-  fun migrate(dataSource: DataSource, changeLogPath: String = "db/changelog/db.changelog-master.yaml") {
+  fun migrate(
+    dataSource: DataSource,
+    changeLogPath: String = "db/changelog/db.changelog-master.yaml",
+  ) {
     log.info("Menjalankan migrasi database Liquibase dari '{}'...", changeLogPath)
     dataSource.connection.use { connection ->
       val database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(JdbcConnection(connection))

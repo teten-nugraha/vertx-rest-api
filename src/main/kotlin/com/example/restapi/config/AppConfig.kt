@@ -11,8 +11,9 @@ import java.io.FileInputStream
 import java.io.InputStream
 import java.util.Collections
 
-class AppConfig(val rawConfig: JsonObject) {
-
+class AppConfig(
+  val rawConfig: JsonObject,
+) {
   val serverPort: Int
     get() = rawConfig.getJsonObject("server", JsonObject()).getInteger("port", 8080)
 
@@ -58,11 +59,23 @@ class AppConfig(val rawConfig: JsonObject) {
   val poolLeakDetectionThresholdMs: Long
     get() = (poolConfig.getValue("leakDetectionThresholdMs") as? Number)?.toLong() ?: 0L
 
+  private val jwtConfig: JsonObject
+    get() = rawConfig.getJsonObject("jwt", JsonObject())
+
+  val jwtSecret: String
+    get() = jwtConfig.getString("secret", "super-secure-jwt-secret-key-for-vertx-api-at-least-256-bits")
+
+  val jwtAccessExpirationMinutes: Long
+    get() = (jwtConfig.getValue("accessTokenExpirationMinutes") as? Number)?.toLong() ?: 15L
+
+  val jwtRefreshExpirationDays: Long
+    get() = (jwtConfig.getValue("refreshTokenExpirationDays") as? Number)?.toLong() ?: 7L
+
   companion object {
     private val LOG = LoggerFactory.getLogger(AppConfig::class.java)
 
-    fun load(vertx: Vertx): Future<AppConfig> {
-      return vertx.executeBlocking<AppConfig> {
+    fun load(vertx: Vertx): Future<AppConfig> =
+      vertx.executeBlocking<AppConfig> {
         var dotenv: Dotenv? = null
         try {
           dotenv = Dotenv.configure().ignoreIfMissing().load()
@@ -101,9 +114,11 @@ class AppConfig(val rawConfig: JsonObject) {
         val merged = mergeWithEnv(config, dotenv)
         AppConfig(merged)
       }
-    }
 
-    private fun mergeWithEnv(config: JsonObject, dotenv: Dotenv?): JsonObject {
+    private fun mergeWithEnv(
+      config: JsonObject,
+      dotenv: Dotenv?,
+    ): JsonObject {
       val server = config.getJsonObject("server", JsonObject())
       val database = config.getJsonObject("database", JsonObject())
       val pool = database.getJsonObject("pool", JsonObject())
@@ -160,12 +175,32 @@ class AppConfig(val rawConfig: JsonObject) {
       getEnvValue("DB_POOL_LEAK_DETECTION_THRESHOLD_MS", dotenv)?.toLongOrNull()?.let { pool.put("leakDetectionThresholdMs", it) }
 
       database.put("pool", pool)
+
+      val jwt = config.getJsonObject("jwt", JsonObject())
+      val jwtSecret = getEnvValue("JWT_SECRET", dotenv)
+      if (!jwtSecret.isNullOrBlank()) {
+        jwt.put("secret", jwtSecret)
+      } else if (!jwt.containsKey("secret")) {
+        jwt.put("secret", "super-secure-jwt-secret-key-for-vertx-api-at-least-256-bits")
+      }
+
+      getEnvValue("JWT_ACCESS_EXPIRATION_MINUTES", dotenv)?.toLongOrNull()?.let {
+        jwt.put("accessTokenExpirationMinutes", it)
+      }
+      getEnvValue("JWT_REFRESH_EXPIRATION_DAYS", dotenv)?.toLongOrNull()?.let {
+        jwt.put("refreshTokenExpirationDays", it)
+      }
+
       config.put("server", server)
       config.put("database", database)
+      config.put("jwt", jwt)
       return config
     }
 
-    private fun getEnvValue(key: String, dotenv: Dotenv?): String? {
+    private fun getEnvValue(
+      key: String,
+      dotenv: Dotenv?,
+    ): String? {
       val sysVal = System.getenv(key)
       if (!sysVal.isNullOrBlank()) return sysVal
       return dotenv?.get(key)?.takeIf { it.isNotBlank() }
